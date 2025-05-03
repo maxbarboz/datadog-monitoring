@@ -25,8 +25,30 @@ services:
     restart: on-failure
     depends_on:
       - mysql
+      - datadog-agent
     env_file:
       - .env
+    environment:
+      DD_AGENT_HOST: ${DD_AGENT_HOST}
+      DD_ENV: ${DD_ENV}
+      DD_SERVICE: ${DD_SERVICE}
+      DD_VERSION: ${DD_VERSION}
+    networks:
+      - app-network
+
+  datadog-agent:
+    image: datadog/agent:latest
+    container_name: datadog-agent
+    environment:
+      - DD_API_KEY=${DD_API_KEY}
+      - DD_SITE=${DD_SITE}
+      - DD_ENV=${DD_ENV}
+      - DD_LOGS_ENABLED=${DD_LOGS_ENABLED}
+      - DD_APM_ENABLED=${DD_APM_ENABLED}
+      - DD_PROCESS_AGENT_ENABLED=${DD_PROCESS_AGENT_ENABLED}
+      - DD_HOSTNAME=app-monitoring
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
     networks:
       - app-network
 
