@@ -20,6 +20,9 @@ ENV DD_AGENT_HOST="datadog-agent" \
     DD_PROFILING_ENABLED=true \
     DD_LOGS_INJECTION=true \
     DD_IAST_ENABLED=true \
-    DD_APPSEC_SCA_ENABLED=true
+    DD_APPSEC_SCA_ENABLED=true \
+    DD_SERVICE="java-dd-trace-stg" \
+    DD_VERSION="1.0.0" \
+    DD_ENV="staging"
 
 ENTRYPOINT ["java", "-javaagent:/dd-java-agent.jar", "-jar", "/actions-and-kubernetes.jar"]
