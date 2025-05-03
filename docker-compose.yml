@@ -33,6 +33,8 @@ services:
       DD_ENV: ${DD_ENV}
       DD_SERVICE: ${DD_SERVICE}
       DD_VERSION: ${DD_VERSION}
+    ports:
+      - "8080:8080"
     networks:
       - app-network
 
@@ -47,8 +49,19 @@ services:
       - DD_APM_ENABLED=${DD_APM_ENABLED}
       - DD_PROCESS_AGENT_ENABLED=${DD_PROCESS_AGENT_ENABLED}
       - DD_HOSTNAME=app-monitoring
+    ports:
+      - "8126:8126"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /proc:/host/proc:ro
+      - /sys/fs/cgroup:/host/sys/fs/cgroup:ro
+    cap_add:
+      - SYS_ADMIN
+      - SYS_RESOURCE
+      - NET_ADMIN
+    security_opt:
+      - apparmor:unconfined
+    privileged: true
     networks:
       - app-network
 
