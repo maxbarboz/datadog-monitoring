@@ -1,0 +1,4 @@
+Project Version - ${application.version}
+
+${application.title}
+Software Enginner - Maxsuel Storch Barboza Rodrigues
