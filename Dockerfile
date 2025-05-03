@@ -15,9 +15,11 @@ COPY dd-java-agent.jar /dd-java-agent.jar
 
 EXPOSE 8080
 
-ENV DD_SERVICE=actions-kubernetes-app \
-    DD_ENV=dev \
-    DD_VERSION=1.0 \
-    DD_AGENT_HOST=host.docker.internal
+ENV DD_AGENT_HOST="datadog-agent" \
+    DD_TRACE_AGENT_PORT="8126" \
+    DD_PROFILING_ENABLED=true \
+    DD_LOGS_INJECTION=true \
+    DD_IAST_ENABLED=true \
+    DD_APPSEC_SCA_ENABLED=true
 
 ENTRYPOINT ["java", "-javaagent:/dd-java-agent.jar", "-jar", "/actions-and-kubernetes.jar"]
