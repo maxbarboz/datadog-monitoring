@@ -15,14 +15,18 @@ COPY dd-java-agent.jar /dd-java-agent.jar
 
 EXPOSE 8080
 
-ENV DD_AGENT_HOST="datadog-agent" \
-    DD_TRACE_AGENT_PORT="8126" \
+ARG DD_HOSTNAME
+ARG DD_SERVICE
+ARG DD_VERSION
+ARG DD_ENV
+
+ENV DD_HOSTNAME=$DD_HOSTNAME \
+    DD_SERVICE=$DD_SERVICE \
+    DD_VERSION=$DD_VERSION \
+    DD_ENV=$DD_ENV \
     DD_PROFILING_ENABLED=true \
     DD_LOGS_INJECTION=true \
     DD_IAST_ENABLED=true \
-    DD_APPSEC_SCA_ENABLED=true \
-    DD_SERVICE="java-dd-trace-stg" \
-    DD_VERSION="1.0.0" \
-    DD_ENV="staging"
+    DD_APPSEC_SCA_ENABLED=true
 
 ENTRYPOINT ["java", "-javaagent:/dd-java-agent.jar", "-jar", "/actions-and-kubernetes.jar"]
