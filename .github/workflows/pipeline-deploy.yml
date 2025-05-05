@@ -49,3 +49,6 @@ jobs:
           tags: 'maxsuelsbr/datadog-monitoring:latest'
           context: .
           push: true
+          build-args: |
+            DD_HOSTNAME=${{ secrets.DD_HOSTNAME }}
+            DD_SERVICE=${{ secrets.DD_SERVICE }}
