@@ -19,9 +19,9 @@ services:
     networks:
       - app-network
 
-  java-application-one:
+  java-application:
     image: maxsuelsbr/datadog-monitoring:latest
-    container_name: java-application-one
+    container_name: java-application
     restart: on-failure
     depends_on:
       - mysql
@@ -38,25 +38,6 @@ services:
     networks:
       - app-network
 
-  java-application-two:
-    image: maxsuelsbr/datadog-monitoring:latest
-    container_name: java-application-two
-    restart: on-failure
-    depends_on:
-      - mysql
-      - datadog-agent
-    env_file:
-      - .env
-    environment:
-      DD_AGENT_HOST: ${DD_AGENT_HOST}
-      DD_ENV: ${DD_ENV}
-      DD_SERVICE: java-application-two
-      DD_VERSION: ${DD_VERSION}
-    ports:
-      - "8081:8081"
-    networks:
-      - app-network
-
   datadog-agent:
     image: datadog/agent:latest
     container_name: datadog-agent
@@ -66,10 +47,11 @@ services:
       - DD_API_KEY=${DD_API_KEY}
       - DD_SITE=${DD_SITE}
       - DD_ENV=${DD_ENV}
-      - DD_LOGS_ENABLED=${DD_LOGS_ENABLED}
       - DD_APM_ENABLED=${DD_APM_ENABLED}
       - DD_PROCESS_AGENT_ENABLED=${DD_PROCESS_AGENT_ENABLED}
       - DD_HOSTNAME=${DD_HOSTNAME}
+      - DD_LOGS_ENABLED=${DD_LOGS_ENABLED}
+      - DD_LOGS_CONFIG_CONTAINER_COLLECT_ALL=${DD_LOGS_CONFIG_CONTAINER_COLLECT_ALL}
     ports:
       - "8126:8126"
     volumes:
